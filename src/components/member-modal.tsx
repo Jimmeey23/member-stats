@@ -6,7 +6,7 @@ import { generateMemberInsight } from "@/lib/ai.functions";
 import { analyzeMemberFeedback, type FeedbackAnalysis } from "@/lib/ai-feedback.functions";
 import { sendMemberEmail, updateMemberOwner } from "@/lib/email.functions";
 import { OWNERS, STATUSES } from "@/lib/constants";
-import { X, Sparkles, MessageSquare, CalendarPlus, Loader2, Mail, Phone, MapPin, Activity, TrendingDown, Clock, Brain, AlertTriangle, Gauge, Send, GripVertical, User } from "lucide-react";
+import { X, Sparkles, MessageSquare, CalendarPlus, Loader2, Mail, Phone, MapPin, Activity, TrendingDown, Clock, Brain, AlertTriangle, Gauge, Send, GripVertical, User, CreditCard, TrendingUp, Repeat, Users, Cake, Heart } from "lucide-react";
 import { toast } from "sonner";
 
 
@@ -240,13 +240,21 @@ export function MemberModal({ member, onClose }: { member: MemberRow; onClose: (
             <h3 className="font-display text-lg font-semibold">Engagement</h3>
             <div className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-4">
               <Mini icon={<Activity />} label="Total classes" value={d["Total Classes Completed"] ?? "—"} />
-              <Mini icon={<TrendingDown />} label="Cancel rate" value={`${d["Cancellation Rate %"] ?? "0"}%`} />
+              <Mini icon={<Activity />} label="Total bookings" value={d["Total Bookings (All Time)"] ?? "—"} />
               <Mini icon={<Activity />} label="Attendance" value={`${d["Attendance Rate %"] ?? "0"}%`} />
               <Mini icon={<Clock />} label="Avg / month" value={d["Avg Classes / Month"] ?? "—"} />
-              <Mini icon={<Activity />} label="Remaining sessions" value={d["Remaining Sessions"] ?? "—"} />
-              <Mini icon={<Clock />} label="No shows" value={d["No Shows"] ?? "0"} />
+              <Mini icon={<TrendingDown />} label="Cancel rate" value={`${d["Cancellation Rate %"] ?? "0"}%`} />
+              <Mini icon={<Clock />} label="Total cancels" value={d["Total Cancellations"] ?? "0"} />
               <Mini icon={<Clock />} label="Late cancels" value={d["Late Cancellations"] ?? "0"} />
+              <Mini icon={<Clock />} label="No shows" value={d["No Shows"] ?? "0"} />
+              <Mini icon={<TrendingUp />} label="Freq. trend" value={d["Frequency Trend"] || "—"} />
+              <Mini icon={<TrendingDown />} label="Cancel trend" value={d["Late Cancel Trend"] || "—"} />
+              <Mini icon={<Activity />} label="Remaining sessions" value={d["Remaining Sessions"] ?? "—"} />
+              <Mini icon={<Activity />} label="Sessions used %" value={d["Sessions Used %"] ? `${d["Sessions Used %"]}%` : "—"} />
               <Mini icon={<Clock />} label="Times frozen" value={d["Times Frozen"] ?? "0"} />
+              <Mini icon={<Clock />} label="First class" value={d["First Ever Class"] || "—"} />
+              <Mini icon={<Clock />} label="Last class" value={d["No Class Since"] || "—"} />
+              <Mini icon={<Clock />} label="Days since class" value={d["Days Since Last Class"] ? `${d["Days Since Last Class"]}d` : "—"} />
             </div>
           </section>
 
@@ -254,19 +262,28 @@ export function MemberModal({ member, onClose }: { member: MemberRow; onClose: (
           <section className="grid gap-4 md:grid-cols-2">
             <Panel title="Membership">
               <KV k="Plan" v={member.current_membership} />
+              <KV k="Type" v={d["Membership Type"]} />
               <KV k="Status" v={member.membership_status} />
               <KV k="Start" v={d["Start Date"]} />
               <KV k="Ends" v={member.end_date} />
+              <KV k="Sessions limit" v={d["Sessions Limit"]} />
               <KV k="Auto-renew" v={d["Auto Renew"]} />
-              <KV k="Lifetime spend" v={d["Lifetime Spend"] ? `₹${d["Lifetime Spend"]}` : "—"} />
+              <KV k="Renewal cancelled" v={d["Renewal Cancelled"]} />
+              <KV k="Currently frozen" v={d["Currently Frozen"]} />
+              <KV k="All memberships" v={d["All Memberships"]} />
+              <KV k="Total purchased" v={d["Total Memberships Purchased"]} />
             </Panel>
             <Panel title="Profile">
+              <KV k="Phone" v={<span className="inline-flex items-center gap-1"><Phone className="h-3 w-3" />{d["Phone"] ?? "—"}</span>} />
+              <KV k="Gender" v={d["Gender"]} />
+              <KV k="Birthday" v={d["Birthday"]} />
+              <KV k="Fitness goal" v={d["Fitness Goal"]} />
               <KV k="Location" v={<span className="inline-flex items-center gap-1"><MapPin className="h-3 w-3" />{member.primary_location}</span>} />
+              <KV k="Locations attended" v={d["Locations Attended"]} />
               <KV k="Preferred days" v={d["Preferred Days"]} />
               <KV k="Preferred time" v={d["Preferred Time Slot"]} />
-              <KV k="Most recent class" v={d["Most Recent Class"]} />
-              <KV k="Last class was" v={d["No Class Since"]} />
-              <KV k="Phone" v={d["Phone"] ?? "—"} />
+              <KV k="How they heard" v={d["How did you hear about us?"]} />
+              <KV k="FNF" v={d["FNF"]} />
               <div className="flex items-center justify-between gap-3 pt-1 text-sm">
                 <dt className="text-muted-foreground inline-flex items-center gap-1"><User className="h-3 w-3" /> Owner</dt>
                 <dd>
@@ -280,6 +297,26 @@ export function MemberModal({ member, onClose }: { member: MemberRow; onClose: (
                   </select>
                 </dd>
               </div>
+            </Panel>
+          </section>
+
+          {/* Revenue & sales */}
+          <section className="grid gap-4 md:grid-cols-2">
+            <Panel title="Revenue">
+              <KV k="Lifetime spend" v={d["Lifetime Spend"] ? `₹${d["Lifetime Spend"]}` : "—"} />
+              <KV k="Revenue / class" v={d["Revenue / Class"] ? `₹${d["Revenue / Class"]}` : "—"} />
+              <KV k="Payment method" v={d["Payment Method"]} />
+              <KV k="Discount code" v={d["Discount Code"]} />
+              <KV k="Sold by" v={d["Sold By"]} />
+              <KV k="Host ID" v={d["Host ID"]} />
+            </Panel>
+            <Panel title="Health & personal">
+              <KV k="Pregnant" v={d["Are you currently pregnant?"]} />
+              <KV k="Pre natal" v={d["Pre Natal"]} />
+              <KV k="Post natal" v={d["Post Natal"]} />
+              <KV k="Medical history" v={d["Medical History"] || d["Medical History "] || "—"} />
+              <KV k="Emergency contact" v={d["Emergency Contact Info"]} />
+              <KV k="EU shoe size" v={d["EU Shoe Size"]} />
             </Panel>
           </section>
 

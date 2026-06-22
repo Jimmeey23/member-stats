@@ -326,21 +326,26 @@ function Dashboard() {
                   </>)}
                   {view === "engagement" && (<>
                     <Th className="text-right">Classes</Th>
+                    <Th className="text-right">Bookings</Th>
                     <Th className="text-right">Attend %</Th>
                     <Th className="text-right">Cancel %</Th>
                     <Th className="text-right">Avg/mo</Th>
+                    <Th>Freq. trend</Th>
                     <Th className="text-right">No-shows</Th>
                     <Th className="text-right">Late cancels</Th>
-                    <Th className="text-right">Last class</Th>
+                    <Th className="text-right">Days since</Th>
                   </>)}
                   {view === "membership" && (<>
                     <Th>Plan</Th>
+                    <Th>Type</Th>
                     <Th>Status</Th>
-                    <Th>Start</Th>
                     <Th>Ends</Th>
                     <Th className="text-right">Remaining</Th>
-                    <Th className="text-right">Lifetime ₹</Th>
                     <Th>Auto-renew</Th>
+                    <Th>Frozen</Th>
+                    <Th className="text-right">Rev/class ₹</Th>
+                    <Th className="text-right">Lifetime ₹</Th>
+                    <Th>Sold by</Th>
                   </>)}
                   {view === "contact" && (<>
                     <Th>Email</Th>
@@ -393,9 +398,11 @@ function Dashboard() {
 
                     {view === "engagement" && (<>
                       <Td className="text-right tabular-nums">{m.data?.["Total Classes Completed"] ?? "—"}</Td>
+                      <Td className="text-right tabular-nums">{m.data?.["Total Bookings (All Time)"] ?? "—"}</Td>
                       <Td className="text-right tabular-nums">{m.data?.["Attendance Rate %"] ?? "0"}%</Td>
                       <Td className="text-right tabular-nums"><span className={Number(m.data?.["Cancellation Rate %"]) >= 25 ? "text-destructive font-medium" : ""}>{m.data?.["Cancellation Rate %"] ?? "0"}%</span></Td>
                       <Td className="text-right tabular-nums">{m.data?.["Avg Classes / Month"] ?? "—"}</Td>
+                      <Td><span className="text-xs text-muted-foreground">{m.data?.["Frequency Trend"] || "—"}</span></Td>
                       <Td className="text-right tabular-nums">{m.data?.["No Shows"] ?? "0"}</Td>
                       <Td className="text-right tabular-nums">{m.data?.["Late Cancellations"] ?? "0"}</Td>
                       <Td className="text-right text-xs text-muted-foreground">{m.data?.["Days Since Last Class"] ?? "—"}d</Td>
@@ -403,12 +410,15 @@ function Dashboard() {
 
                     {view === "membership" && (<>
                       <Td><span className="text-xs">{m.current_membership ?? "—"}</span></Td>
+                      <Td><span className="text-xs text-muted-foreground">{m.data?.["Membership Type"] ?? "—"}</span></Td>
                       <Td><span className="text-xs">{m.membership_status ?? "—"}</span></Td>
-                      <Td><span className="text-xs text-muted-foreground">{m.data?.["Start Date"] ?? "—"}</span></Td>
                       <Td><span className="text-xs text-muted-foreground">{m.end_date ?? "—"}</span></Td>
                       <Td className="text-right tabular-nums">{m.data?.["Remaining Sessions"] ?? "—"}</Td>
-                      <Td className="text-right tabular-nums text-xs">{m.data?.["Lifetime Spend"] ? `₹${m.data?.["Lifetime Spend"]}` : "—"}</Td>
                       <Td><span className="text-xs">{m.data?.["Auto Renew"] ?? "—"}</span></Td>
+                      <Td><span className="text-xs">{m.data?.["Currently Frozen"] ?? "—"}</span></Td>
+                      <Td className="text-right tabular-nums text-xs">{m.data?.["Revenue / Class"] ? `₹${m.data?.["Revenue / Class"]}` : "—"}</Td>
+                      <Td className="text-right tabular-nums text-xs">{m.data?.["Lifetime Spend"] ? `₹${m.data?.["Lifetime Spend"]}` : "—"}</Td>
+                      <Td><span className="text-xs text-muted-foreground">{m.data?.["Sold By"] ?? "—"}</span></Td>
                     </>)}
 
                     {view === "contact" && (<>
