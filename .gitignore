@@ -1,5 +1,6 @@
 .env
 .env.*
+.vercel/output
 
 # Logs
 logs
