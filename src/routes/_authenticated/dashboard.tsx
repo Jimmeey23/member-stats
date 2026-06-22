@@ -473,14 +473,27 @@ function Avatar({ name }: { name: string }) {
 function RiskBadge({ risk, score }: { risk: string | null; score: number | null }) {
   const tone =
     risk === "High"
-      ? "bg-destructive/15 text-destructive ring-destructive/40 dark:bg-destructive/15"
+      ? "bg-destructive/12 text-destructive ring-destructive/35"
       : risk === "Medium"
-      ? "bg-amber-500/20 text-amber-900 ring-amber-600/40 dark:bg-warning/15 dark:text-warning dark:ring-warning/30"
-      : "bg-emerald-500/15 text-emerald-800 ring-emerald-600/40 dark:bg-success/15 dark:text-success dark:ring-success/30";
-  return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ring-1 ${tone}`}>{risk ?? "—"}<span className="tabular-nums opacity-70">·{score ?? 0}</span></span>;
+      ? "bg-warning/12 text-warning ring-warning/35"
+      : "bg-success/12 text-success ring-success/35";
+  return (
+    <span className={`inline-flex w-28 items-center justify-between rounded-md px-2.5 py-1 text-xs font-medium ring-1 ${tone}`}>
+      <span>{risk ?? "—"}</span>
+      <span className="tabular-nums opacity-60 font-mono text-[11px]">{score ?? 0}</span>
+    </span>
+  );
 }
 
 function StatusPill({ status }: { status: string | null }) {
-  if (!status || status === "0") return <span className="text-xs text-muted-foreground">Not contacted</span>;
-  return <span className="inline-flex rounded-full bg-primary/15 px-2.5 py-1 text-xs font-medium text-primary ring-1 ring-primary/30">{status}</span>;
+  if (!status || status === "0") return (
+    <span className="inline-flex w-32 items-center justify-center rounded-md border border-border bg-surface-2 px-2.5 py-1 text-xs text-muted-foreground">
+      Not contacted
+    </span>
+  );
+  return (
+    <span className="inline-flex w-32 items-center justify-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary ring-1 ring-primary/25">
+      {status}
+    </span>
+  );
 }

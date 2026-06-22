@@ -114,7 +114,7 @@ export function MemberModal({ member, onClose }: { member: MemberRow; onClose: (
   return (
     <div className="fixed inset-0 z-50 flex items-stretch justify-end bg-foreground/30 backdrop-blur-md animate-in fade-in duration-200" onClick={onClose}>
       <div
-        className="relative ml-auto h-full overflow-y-auto bg-background shadow-[-24px_0_60px_-20px_rgba(0,0,0,0.35)] scroll-fade animate-in slide-in-from-right duration-300 border-l border-border"
+        className="relative ml-auto h-full overflow-y-auto bg-surface shadow-[-24px_0_60px_-20px_rgba(0,0,0,0.28)] scroll-fade animate-in slide-in-from-right duration-300 border-l border-border"
         style={{ width }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -128,8 +128,8 @@ export function MemberModal({ member, onClose }: { member: MemberRow; onClose: (
         </div>
 
         {/* Header */}
-        <div className="sticky top-0 z-10 border-b border-border bg-background/85 backdrop-blur-xl">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-primary/8 via-primary/3 to-transparent" />
+        <div className="sticky top-0 z-10 border-b border-border bg-surface/95 backdrop-blur-xl">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-primary/6 to-transparent" />
           <div className="relative flex items-start justify-between p-6">
             <div className="flex items-center gap-4">
               <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl grad-coral text-lg font-semibold text-primary-foreground ring-glow">
@@ -144,7 +144,7 @@ export function MemberModal({ member, onClose }: { member: MemberRow; onClose: (
                 </div>
               </div>
             </div>
-            <button onClick={onClose} className="rounded-full border border-border bg-surface/60 p-2 text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"><X className="h-4 w-4" /></button>
+            <button onClick={onClose} className="rounded-full border border-border bg-surface-2 p-2 text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"><X className="h-4 w-4" /></button>
           </div>
 
           {/* Risk strip */}
@@ -193,7 +193,7 @@ export function MemberModal({ member, onClose }: { member: MemberRow; onClose: (
           </div>
 
           {/* AI feedback analysis */}
-          <div className="rounded-2xl border border-border bg-surface/40 p-5">
+          <div className="rounded-2xl border border-border bg-surface-2 p-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Brain className="h-4 w-4 text-primary" />
@@ -295,7 +295,7 @@ export function MemberModal({ member, onClose }: { member: MemberRow; onClose: (
               </button>
             </div>
             {emailOpen && (
-              <div className="mt-3 space-y-3 rounded-2xl border border-border bg-surface/50 p-4">
+              <div className="mt-3 space-y-3 rounded-2xl border border-border bg-surface-2 p-4">
                 <input
                   value={emailSubject}
                   onChange={(e) => setEmailSubject(e.target.value)}
@@ -334,7 +334,7 @@ export function MemberModal({ member, onClose }: { member: MemberRow; onClose: (
           {/* Add follow-up */}
           <section>
             <h3 className="font-display text-lg font-semibold">Log a follow-up</h3>
-            <div className="mt-3 space-y-3 rounded-2xl border border-border bg-surface/50 p-4">
+            <div className="mt-3 space-y-3 rounded-2xl border border-border bg-surface-2 p-4">
               <div className="grid gap-3 md:grid-cols-3">
                 <label className="block">
                   <span className="mb-1 block text-xs uppercase tracking-[0.12em] text-muted-foreground">Status</span>
@@ -387,7 +387,7 @@ export function MemberModal({ member, onClose }: { member: MemberRow; onClose: (
             <h3 className="font-display text-lg font-semibold">Activity history</h3>
             <div className="mt-3 space-y-2">
               {(fuQ.data ?? []).map((f: any) => (
-                <div key={f.id} className="rounded-xl border border-border bg-surface/50 p-3">
+                <div key={f.id} className="rounded-xl border border-border bg-surface-2 p-3">
                   <div className="flex items-center justify-between text-xs text-muted-foreground">
                     <span className="font-medium text-foreground">{f.user_email ?? "User"}</span>
                     <span>{new Date(f.created_at).toLocaleString()}</span>
@@ -410,9 +410,9 @@ export function MemberModal({ member, onClose }: { member: MemberRow; onClose: (
 
 function RiskCell({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
   return (
-    <div className={`px-6 py-3.5 transition ${highlight ? "bg-destructive/10" : "bg-surface/70"}`}>
+    <div className={`px-6 py-3.5 transition ${highlight ? "bg-destructive/8 dark:bg-destructive/12" : "bg-background/60"}`}>
       <div className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">{label}</div>
-      <div className={`mt-1 font-display text-lg font-semibold tracking-tight ${highlight ? "text-destructive" : ""}`}>{value}</div>
+      <div className={`mt-1 font-display text-lg font-semibold tracking-tight ${highlight ? "text-destructive" : "text-foreground"}`}>{value}</div>
     </div>
   );
 }
@@ -428,7 +428,7 @@ function Block({ label, children }: { label: string; children: React.ReactNode }
 
 function Mini({ icon, label, value }: { icon: React.ReactNode; label: string; value: React.ReactNode }) {
   return (
-    <div className="group rounded-xl border border-border bg-surface/60 p-3.5 transition hover:border-primary/30 hover:bg-surface">
+    <div className="group rounded-xl border border-border bg-surface-2 p-3.5 transition hover:border-primary/30 hover:bg-surface">
       <div className="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground [&>svg]:h-3 [&>svg]:w-3">{icon}<span>{label}</span></div>
       <div className="mt-2 font-display text-base font-semibold tabular-nums">{value}</div>
     </div>
@@ -437,7 +437,7 @@ function Mini({ icon, label, value }: { icon: React.ReactNode; label: string; va
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-border bg-surface/60 p-5 shadow-[0_1px_0_0_oklch(1_0_0/4%)_inset]">
+    <div className="rounded-2xl border border-border bg-surface p-5">
       <div className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">{title}</div>
       <dl className="mt-3.5 space-y-2.5">{children}</dl>
     </div>
@@ -460,7 +460,7 @@ function toneClass(t?: Tone) {
     case "positive": return "border-emerald-600/40 bg-emerald-500/15 text-emerald-800 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300";
     case "warn":     return "border-amber-600/40 bg-amber-500/15 text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300";
     case "danger":   return "border-destructive/40 bg-destructive/15 text-destructive dark:border-destructive/30 dark:bg-destructive/10";
-    default:         return "border-border bg-surface/60 text-foreground";
+    default:         return "border-border bg-surface-2 text-foreground";
   }
 }
 function sentimentTone(s: FeedbackAnalysis["sentiment"]): Tone {
